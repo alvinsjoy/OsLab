@@ -16,8 +16,8 @@ void main(){
 		// Child process
 		printf("Child process (PID %d): Executing ls -l\n", getpid());
 
-		// Open text.txt
-		char *args[] = {"gedit", "text.txt", NULL};
+		// List directories
+		char *args[] = {"ls", "-l", NULL};
 		execvp(args[0], args);
 
 		// If execvp fails, print an error
