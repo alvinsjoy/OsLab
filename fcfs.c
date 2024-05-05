@@ -16,8 +16,8 @@ void main(){
         printf("P%d: ", i + 1);
         scanf("%s %d %d", p[i].name, &p[i].arrivalTime, &p[i].burstTime);
     }
-    for(int i = 0; i < n; i++){
-        for(int j = i; j < n - 1 - i; j++){
+    for(int i = 0; i < n - 1; i++){
+        for(int j = 0; j < n - 1 - i; j++){
             if(p[j].arrivalTime > p[j + 1].arrivalTime){
                 temp = p[j];
                 p[j] = p[j + 1];
