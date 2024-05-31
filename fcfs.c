@@ -29,6 +29,8 @@ void main(){
     float wait = 0, turnaround = 0.0;
     printf("P\tAT\tBT\tCT\tTAT\tWT\n");
     for(int i = 0; i < n; i++){
+        if(p[i].arrivalTime > time)
+            time = p[i].arrivalTime;
         execution = p[i].burstTime;
         time += execution;
         p[i].completionTime = time;
