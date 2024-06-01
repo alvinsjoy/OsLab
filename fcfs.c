@@ -1,6 +1,6 @@
 #include <stdio.h>
 struct process{
-    char name[10];
+    int name;
     int arrivalTime;
     int burstTime;
     int completionTime;
@@ -12,9 +12,10 @@ void main(){
     printf("Enter the number of processes: ");
     scanf("%d", &n);
     for(int i = 0; i < n; i++){
-        printf("Enter process details (name, arrival time, burst time):\n");
+        printf("Enter process details (arrival time, burst time):\n");
         printf("P%d: ", i + 1);
-        scanf("%s %d %d", p[i].name, &p[i].arrivalTime, &p[i].burstTime);
+        scanf("%d %d", &p[i].arrivalTime, &p[i].burstTime);
+        p[i].name = i + 1;
     }
     for(int i = 0; i < n - 1; i++){
         for(int j = 0; j < n - 1 - i; j++){
