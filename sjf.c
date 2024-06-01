@@ -34,18 +34,16 @@ void main(){
     float wait = 0.0, turnaround = 0.0;
     printf("P\tAT\tBT\tCT\tTAT\tWT\n");
     while(p[i].status == false){
-        if(time >= p[i].arrivalTime){
-            p[i].status = true;
-            time += p[i].burstTime;
-            p[i].completionTime = time;
-            p[i].turnaroundTime = p[i].completionTime - p[i].arrivalTime;
-            p[i].waitingTime = p[i].turnaroundTime - p[i].burstTime;
-            printf("%d\t%d\t%d\t%d\t%d\t%d\n", p[i].name, p[i].arrivalTime, p[i].burstTime, p[i].completionTime, p[i].turnaroundTime, p[i].waitingTime);
-            wait = wait + p[i].waitingTime;
-            turnaround = turnaround + p[i].turnaroundTime;
-        }
-        else
+        if(p[i].arrivalTime > time)
             time = p[i].arrivalTime;
+        p[i].status = true;
+        time += p[i].burstTime;
+        p[i].completionTime = time;
+        p[i].turnaroundTime = p[i].completionTime - p[i].arrivalTime;
+        p[i].waitingTime = p[i].turnaroundTime - p[i].burstTime;
+        printf("%d\t%d\t%d\t%d\t%d\t%d\n", p[i].name, p[i].arrivalTime, p[i].burstTime, p[i].completionTime, p[i].turnaroundTime, p[i].waitingTime);
+        wait = wait + p[i].waitingTime;
+        turnaround = turnaround + p[i].turnaroundTime;
         i = (i + 1) % n;
     }
     printf("Average Waiting Time=%f\n",wait/n);
