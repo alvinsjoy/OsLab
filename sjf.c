@@ -44,6 +44,8 @@ void main(){
             wait = wait + p[i].waitingTime;
             turnaround = turnaround + p[i].turnaroundTime;
         }
+        else
+            time = p[i].arrivalTime;
         i = (i + 1) % n;
     }
     printf("Average Waiting Time=%f\n",wait/n);
