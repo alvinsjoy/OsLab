@@ -37,7 +37,7 @@ void main(){
         p[i].completionTime = time;
         p[i].turnaroundTime = p[i].completionTime - p[i].arrivalTime;
         p[i].waitingTime = p[i].turnaroundTime - p[i].burstTime;
-        printf("%s\t%d\t%d\t%d\t%d\t%d\n", p[i].name, p[i].arrivalTime, p[i].burstTime, p[i].completionTime, p[i].turnaroundTime, p[i].waitingTime);
+        printf("%d\t%d\t%d\t%d\t%d\t%d\n", p[i].name, p[i].arrivalTime, p[i].burstTime, p[i].completionTime, p[i].turnaroundTime, p[i].waitingTime);
         wait = wait + p[i].waitingTime;
         turnaround = turnaround + p[i].turnaroundTime;        
     }
