@@ -22,7 +22,7 @@ void firstFit(struct process p[], int memory[], int n, int m ){
     }
     for(int i = 0; i < m; i++){
         printf("Free Blocks -->");
-        printf("%d, ",memory[i]);
+        printf("%d/n",memory[i]);
     }
 }
 void worstFit(struct process p[], int memory[], int n, int m ){
@@ -48,7 +48,7 @@ void worstFit(struct process p[], int memory[], int n, int m ){
     }
     for(int i = 0; i < m; i++){
         printf("Free Blocks -->");
-        printf("%d, ",memory[i]);
+        printf("%d/n",memory[i]);
     }
 }
 void bestFit(struct process p[], int memory[], int n, int m ){
