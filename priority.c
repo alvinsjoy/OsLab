@@ -1,75 +1,64 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 struct Process {
-    int processNo;
-    int arrivalTime;
+    int name;
     int burstTime;
+    int arrivalTime;
+    int completionTime;
+    int waitingTime;
+    int turnaroundTime;
     int priority;
-};
-
-void sortProcesses(struct Process proc[], int n) {
-    // Sort processes based on arrival time and priority
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (proc[j].arrivalTime < proc[i].arrivalTime ||
-                (proc[j].arrivalTime == proc[i].arrivalTime && proc[j].priority < proc[i].priority)) {
-                // Swap processes
-                struct Process temp = proc[i];
-                proc[i] = proc[j];
-                proc[j] = temp;
-            }
-        }
-    }
-}
-
-void calculateWaitingTime(struct Process proc[], int wt[], int n) {
-    wt[0] = 0; // Waiting time for the first process is zero
-    int pstart[n];
-    pstart[0]=0;
-    for (int i = 1; i < n; i++) {
-        pstart[i]=pstart[i-1]+proc[i - 1].burstTime;
-        wt[i] = pstart[i]-proc[i].arrivalTime;
-    }
-}
-
-void calculateTurnaroundTime(struct Process proc[], int wt[], int tat[], int n) {
-    for (int i = 0; i < n; i++) {
-        tat[i] = proc[i].burstTime + wt[i];
-    }
-}
-
-int main() {
+    bool executed;
+}p[20], temp;
+void main(){
     int n;
     printf("Enter the number of processes: ");
     scanf("%d", &n);
-
-    struct Process proc[n];
-    int wt[n], tat[n];
-
-    printf("Enter process details (arrival time, burst time, priority):\n");
-    for (int i = 0; i < n; i++) {
-        proc[i].processNo = i + 1;
+     for(int i = 0; i < n; i++){
+        printf("Enter process details (priority, arrival time, burst time):\n");
         printf("P%d: ", i + 1);
-        scanf("%d %d %d", &proc[i].arrivalTime, &proc[i].burstTime, &proc[i].priority);
+        scanf("%d %d %d", &p[i].priority, &p[i].arrivalTime, &p[i].burstTime);
+        p[i].executed = false;
+        p[i].name = i + 1;
     }
-
-    // Sort processes based on arrival time and priority
-    sortProcesses(proc, n);
-
-    // Calculate waiting time and turnaround time
-    calculateWaitingTime(proc, wt, n);
-    calculateTurnaroundTime(proc, wt, tat, n);
-
-    // Display results
-    float awt=0,atat=0;
-    printf("\nProcess\tArrival Time\tBurst Time\tPriority\tWaiting Time\tTurnaround Time\n");
-    for (int i = 0; i < n; i++) {
-        printf("P%d\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", proc[i].processNo, proc[i].arrivalTime,
-               proc[i].burstTime, proc[i].priority, wt[i], tat[i]);
-    awt=awt+wt[i];
-    atat=atat+tat[i];
-        
+    for(int i = 0; i < n - 1; i++){
+        for(int j = 0; j < n - 1 - i; j++){
+            if((p[j].arrivalTime > p[j + 1].arrivalTime) || (p[j].arrivalTime == p[j + 1].arrivalTime && p[j].priority > p[j + 1].priority)) {
+                temp = p[j];
+                p[j] = p[j + 1];
+                p[j + 1] = temp;
+            }
+        }
     }
-  printf("AWT=%f\t ATAT=%f",awt/n,atat/n);
-    return 0;
+    int time = 0, i = 0, executedCount = 0;
+    float wait = 0.0, turnaround = 0.0;
+    printf("P\tPR\tAT\tBT\tCT\tTAT\tWT\n");
+    while (executedCount < n) {
+        int minIndex = -1;
+        for (int i = 0; i < n; i++) {
+            if (!p[i].executed && p[i].arrivalTime <= time) {
+                if (minIndex == -1 || p[i].priority < p[minIndex].priority) 
+                    minIndex = i;
+            }
+        }
+
+        if (minIndex != -1) {
+            if (p[minIndex].arrivalTime > time)
+                time = p[minIndex].arrivalTime;
+            p[minIndex].executed = true;
+            time += p[minIndex].burstTime;
+            p[minIndex].completionTime = time;
+            p[minIndex].turnaroundTime = p[minIndex].completionTime - p[minIndex].arrivalTime;
+            p[minIndex].waitingTime = p[minIndex].turnaroundTime - p[minIndex].burstTime;
+            printf("P%d\t%d\t%d\t%d\t%d\t%d\t%d\n", p[minIndex].name, p[minIndex].priority, p[minIndex].arrivalTime, p[minIndex].burstTime, p[minIndex].completionTime, p[minIndex].turnaroundTime, p[minIndex].waitingTime);
+            wait += p[minIndex].waitingTime;
+            turnaround += p[minIndex].turnaroundTime;
+            executedCount++;
+        }
+        else
+            time++;
+    }
+    printf("Average Waiting Time=%f\n",wait/n);
+    printf("Average turnaround Time=%f\n",turnaround/n);
 }
