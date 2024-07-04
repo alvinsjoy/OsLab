@@ -2,10 +2,9 @@
 #include <stdlib.h>
 int fcfs(int requests[], int numRequests){
     int totalSeekTime = 0, currentTrack = 0;
-    for (int i = 0; i < numRequests; i++) {
-        int seekTime = abs(currentTrack - requests[i]);
+    for(int i = 0; i < numRequests; i++){
+        totalSeekTime += abs(currentTrack - requests[i]);
         currentTrack = requests[i];
-        totalSeekTime += seekTime;
     }
     return totalSeekTime;
 }
@@ -15,7 +14,6 @@ int scan(int requests[], int numRequests){
     for(int i = 0; i < numRequests; i++){
         while(currentTrack >= 0 && currentTrack < 200){
             if(currentTrack == requests[i]){
-                totalSeekTime += abs(currentTrack - requests[i]);
                 requests[i] = -1;
                 break;
             }
@@ -33,6 +31,22 @@ int scan(int requests[], int numRequests){
     }
     return totalSeekTime;
 }
+int cscan(int requests[], int numRequests){
+    int totalSeekTime = 0, currentTrack = 0;
+    for(int i = 0; i < numRequests; i++){
+        while(currentTrack >= 0 && currentTrack < 200){
+            if(currentTrack = requests[i]){
+                requests[i] = -1;
+                break;
+            }
+            totalSeekTime++;
+            currentTrack++;
+        }
+        if(currentTrack >= 200)
+            currentTrack = 0;
+    }
+    return totalSeekTime;
+}
 void main(){
     int requests[100];
     int numRequests, totalSeek;
@@ -47,6 +61,9 @@ void main(){
     totalSeek = fcfs(requests, numRequests);
     printf("Total Seek Time: %d\n", totalSeek);
     printf("SCAN\n");
+    totalSeek = scan(requests, numRequests);
+    printf("Total Seek Time: %d\n", totalSeek);
+    printf("C-SCAN\n");
     totalSeek = scan(requests, numRequests);
     printf("Total Seek Time: %d\n", totalSeek);
 }
