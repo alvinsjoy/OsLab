@@ -1,20 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/shm.h>
-#include <string.h>
 
 #define SHM_SIZE 1024
 void main(){
     key_t key;
     int shmid;
     char *shm;
-    char s[SHM_SIZE];
     key = ftok("shmfile", 'R');
     shmid = shmget(key, SHM_SIZE, IPC_CREAT | 0666);
     shm = shmat(shmid, NULL, 0);
     printf("Enter the message: ");
-    scanf("%[^\n]", s);
-    strcpy(shm, s);
+    scanf("%[^\n]", shm);
     printf("%s\n", shm);
     shmdt(shm);
 }
