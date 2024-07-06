@@ -26,14 +26,13 @@ void main(){
             }
         }
     }
-    int time = 0, execution = 0;
+    int time = 0;
     float wait = 0, turnaround = 0.0;
     printf("P\tAT\tBT\tCT\tTAT\tWT\n");
     for(int i = 0; i < n; i++){
         if(p[i].arrivalTime > time)
             time = p[i].arrivalTime;
-        execution = p[i].burstTime;
-        time += execution;
+        time += p[i].burstTime;
         p[i].completionTime = time;
         p[i].turnaroundTime = p[i].completionTime - p[i].arrivalTime;
         p[i].waitingTime = p[i].turnaroundTime - p[i].burstTime;
