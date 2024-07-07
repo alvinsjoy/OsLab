@@ -31,7 +31,7 @@ void main(){
             }
         }
     }
-    int time = 0, i = 0, executedCount = 0;
+    int time = 0, executedCount = 0;
     float wait = 0.0, turnaround = 0.0;
     printf("P\tPR\tAT\tBT\tCT\tTAT\tWT\n");
     while (executedCount < n) {
