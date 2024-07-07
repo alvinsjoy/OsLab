@@ -30,14 +30,14 @@ void main(){
             }
         }
     }
-    int time = 0, i = 0, executedCount = 0;
+    int time = 0, executedCount = 0;
     float wait = 0.0, turnaround = 0.0;
     printf("P\tAT\tBT\tCT\tTAT\tWT\n");
     while (executedCount < n) {
         int minIndex = -1;
         for (int i = 0; i < n; i++) {
             if (!p[i].executed && p[i].arrivalTime <= time) {
-                if (minIndex == -1 || p[i].burstTime < p[minIndex].burstTime) 
+                if (minIndex == -1 || p[i].burstTime < p[minIndex].burstTime)
                     minIndex = i;
             }
         }
