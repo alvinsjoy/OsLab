@@ -24,16 +24,15 @@ void main(){
         need[i][0] = max[i][0] - allocated[i][0];
         need[i][1] = max[i][1] - allocated[i][1];
         need[i][2] = max[i][2] - allocated[i][2];
+
+        safeSequence[i] = 0;
+        finished[i] = false;
     }
     printf("Enter the available matrix:\n");
     scanf("%d %d %d", &available[0], &available[1], &available[2]);
     work[0] = available[0];
     work[1] = available[1];
     work[2] = available[2];
-    for(int i = 0; i < n; i++){
-        safeSequence[i] = 0;
-        finished[i] = false;
-    }
     while(count < n){
         bool flag = false;
         for(int i = 0; i < n; i++){
