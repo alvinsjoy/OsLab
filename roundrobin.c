@@ -6,17 +6,12 @@ struct process{
     int remainingTime;
     int waitingTime;
     int turnaroundTime;
-}p[20], temp;
-int q[100];
-int rear = -1;
-int front = -1;
+}p[20];
+int q[100], rear = -1, front = -1;
 void enqueue(int item){
-	if (front == -1 && rear == -1){
+	if (front == -1 && rear == -1)
 		front++;
-		q[++rear] = item;
-	}
-	else
-		q[++rear] = item;
+	q[++rear] = item;
 }
 int dequeue(){
 	int item;
@@ -42,11 +37,9 @@ void main(){
         scanf("%d", &p[i].burstTime);
         p[i].name = i;
         p[i].remainingTime = p[i].burstTime;
-    }
-    for(int i = 0; i < n; i++){
         enqueue(p[i].name);
     }
-    int time = 0, execution = 0, i = 0;
+    int time = 0, i = 0;
     float wait = 0, turnaround = 0.0;
     printf("P\tBT\tCT\tTAT\tWT\n");
     while(front != -1){
