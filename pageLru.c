@@ -1,24 +1,30 @@
 #include <stdio.h>
 #include <string.h>
 
-int top = -1, n, hit = 0, miss = 0;
+int n, hit = 0, miss = 0;
 char page[50], frame[50];
-
-void push(char item, int *top, char stack[]){
-    stack[++(*top)] = item;
-}
-
-char pop(int *top, char stack[]){
-    return stack[(*top)--];
-}
+int counter[50];
 
 int inFrame(char item){
     for(int i = 0; i < n; i++){
         if(item == frame[i]){
-            return 1;
+            return i;
         }
     }
-    return 0;
+    return -1;
+}
+
+int findLRU(){
+    int max = counter[0];
+    int lruIndex = 0;
+
+    for (int i = 1; i < n; i++){
+        if (counter[i] > max){
+            max = counter[i];
+            lruIndex = i;
+        }
+    }
+    return lruIndex;
 }
 
 void main(){
@@ -26,32 +32,41 @@ void main(){
     scanf("%d", &n);
     printf("Enter the page string: ");
     scanf("%s", page);
-    for(int i = 0; i < n; i++)
+    for(int i = 0; i < n; i++){
         frame[i] = ' ';
-
+        counter[i] = 0;
+    }
     for(int i = 0; page[i] != '\0'; i++){
-        if(inFrame(page[i]) == 1)
+        int index = inFrame(page[i]);
+
+        if(index != -1){
             hit++;
+            counter[index] = 0;
+        }
         else{
             miss++;
-            if(top == n - 1){
-                for(int j = 0; j < n - 1; j++){
-                    frame[j] = frame[j + 1];
-                }
-                frame[n - 1] = page[i];
+            int lruIndex = findLRU();
+            frame[lruIndex] = page[i];
+            counter[lruIndex] = 0;
+        }
+        for(int j = 0; j < n; j++){
+            if(frame[j] != ' '){
+                counter[j]++;
             }
-            else
-                push(page[i], &top, frame);
         }
         for(int j = 0; j < n; j++){
             if(frame[j] != ' '){
                 printf("%c ", frame[j]);
             }
+            else{
+                printf("- ");
+            }
         }
         printf("\n");
     }
+
     printf("\nHit Count: %d", hit);
     printf("\nMiss Count: %d", miss);
-    printf("\nHit Ratio: %f", (float)hit / (float)(hit + miss));
-    printf("\nMiss Ratio: %f", (float)miss / (float)(hit + miss));
+    printf("\nHit Ratio: %f", (float)hit / (hit + miss));
+    printf("\nMiss Ratio: %f", (float)miss / (hit + miss));
 }
