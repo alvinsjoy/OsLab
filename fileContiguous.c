@@ -2,7 +2,7 @@
 
 struct file{
     int start;
-    int length;
+    int size;
 } file[20];
 
 void main(){
@@ -17,27 +17,27 @@ void main(){
         printf("Enter starting block for file %d: ", i + 1);
         scanf("%d", &file[i].start);
         printf("Enter size of file %d: ", i + 1);
-        scanf("%d", &file[i].length);
-        int flag = 0;
-        if(file[i].length > n)
+        scanf("%d", &file[i].size);
+        int canAllocate = 1;
+        if(file[i].size > n || (file[i].size + file[i].start) > n)
             printf("File cannot be allocated due to lack of memory");
         else{
-            for(int j = file[i].start; j < file[i].start + file[i].length; j++){
+            for(int j = file[i].start; j < file[i].start + file[i].size; j++){
                 if(blocks[j] == 1){
-                    flag = 1;
+                    canAllocate = 0;
                     break;
                 }
             }
-            if(flag == 0){
+            if(canAllocate == 1){
                 printf("File Allocated to Blocks: ");
-                for(int j = file[i].start; j < file[i].start + file[i].length; j++){
+                for(int j = file[i].start; j < file[i].start + file[i].size; j++){
                     blocks[j] = 1;
                     printf("%d, ", j);
                 }
                 printf("\n");
             }
             else
-                printf("File cannot be allocated. Blocks from %d to %d are already occupied.\n", file[i].start, file[i].start + file[i].length - 1);
+                printf("File cannot be allocated. Blocks from %d to %d are already occupied.\n", file[i].start, file[i].start + file[i].size - 1);
         }
     }
 }
