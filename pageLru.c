@@ -14,17 +14,14 @@ int inFrame(char item){
     return -1;
 }
 
-int findLRU(){
-    int max = counter[0];
-    int lruIndex = 0;
-
-    for (int i = 1; i < n; i++){
-        if (counter[i] > max){
-            max = counter[i];
-            lruIndex = i;
+int findLRU() {
+    int minIndex = 0;
+    for (int i = 1; i < n; i++) {
+        if (counter[i] < counter[minIndex]) {
+            minIndex = i;
         }
     }
-    return lruIndex;
+    return minIndex;
 }
 
 void main(){
@@ -41,21 +38,16 @@ void main(){
 
         if(index != -1){
             hit++;
-            counter[index] = 0;
-        }
-        else{
+            counter[index] = i;
+        } else {
             miss++;
             int lruIndex = findLRU();
             frame[lruIndex] = page[i];
-            counter[lruIndex] = 0;
+            counter[lruIndex] = i;
         }
-        for(int j = 0; j < n; j++){
-            if(frame[j] != ' '){
-                counter[j]++;
-            }
-        }
-        for(int j = 0; j < n; j++){
-            if(frame[j] != ' '){
+
+        for (int j = 0; j < n; j++) {
+            if (frame[j] != ' ') {
                 printf("%c ", frame[j]);
             }
             else{
